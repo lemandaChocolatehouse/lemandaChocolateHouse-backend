@@ -10,12 +10,12 @@ const productSchema = mongoose.Schema({
     required: true,
   },
   Image: {
-    type: String,
-    default: "",
+    type: Buffer, // Store main image as binary data
+    default: null,
   },
   images: [
     {
-      type: String,
+      type: Buffer, // Store additional images as binary data
     },
   ],
   desc: {
@@ -46,4 +46,5 @@ const productSchema = mongoose.Schema({
   },
 });
 
+// Exporting the model
 exports.Product = mongoose.model("Product", productSchema);

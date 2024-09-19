@@ -11,7 +11,7 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => {
-    console.log("Database Connection is ready...");
+    console.log("Database Connection is fully ready...");
   })
   .catch((err) => {
     console.log(err);

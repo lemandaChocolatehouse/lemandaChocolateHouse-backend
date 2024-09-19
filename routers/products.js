@@ -2,9 +2,10 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const multer = require("multer");
-const { gfs } = require("../index");
+
 const GridFSStream = require("gridfs-stream");
 const { Product } = require("../models/product");
+const { gfs} = require("../db");
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });

@@ -7,8 +7,9 @@ const bcrypt = require("bcrypt");
 
 require("dotenv").config();
 const app = express();
+
 app.use(cors());
-app.options("*", cors());
+
 
 const productsRouter = require("./routers/products");
 const usersRouter = require("./routers/users");

@@ -2,10 +2,14 @@ const mongoose = require('mongoose');
 
 const orderSchema = new mongoose.Schema({
     user: {
-        type: String,  // Assuming you have a User model defined
+        type: mongoose.Schema.Types.ObjectId, // Assuming User has an ObjectId type
+       
+        ref: 'User', // Reference to User model
+      },
+      merchantId: {
+        type: String,
         required: true,
-        ref: 'User',  // Reference to User model
-    },
+        },
     items: [
         {
             name: { type: String, required: true },
@@ -19,8 +23,21 @@ const orderSchema = new mongoose.Schema({
         city: { type: String, required: true },
         postalCode: { type: String, required: true },
     },
-    totalPrice: { type: Number, required: true },
+    amount: { type: Number, required: true },
     status: {
+        type: String,
+        enum: ['paid', 'unpaid'],
+        default: 'unpaid',
+    },
+    MUID: {
+        type: String,
+        required: true,
+    },
+    merchantTransactionId: {
+        type: String,
+        required: true,
+    },
+    status:{
         type: String,
         enum: ['paid', 'unpaid'],
         default: 'unpaid',

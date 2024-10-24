@@ -82,7 +82,7 @@ app.post("/neworder", async (req, res) => {
     items: items, // Use items directly from request body
     shippingInfo,
     amount: totalPrice * 100,
-    redirectUrl: `http://localhost:5173/status/${transactionId}`,
+    redirectUrl: `${process.env.FRONTEND_URL}/${transactionId}`,
     callbackUrl: `http://localhost:5173`,
     redirectMode: "REDIRECT",
     paymentInstrument: {
@@ -97,7 +97,6 @@ app.post("/neworder", async (req, res) => {
   try {
     // Save order to the database
     const newOrder = new Order(orderData);
-    console.log(newOrder, "------------------------------------------newOrder-------------------------------------------------------");
     
     await newOrder.save();
 
@@ -110,8 +109,7 @@ app.post("/neworder", async (req, res) => {
     const sha256 = crypto.createHash("sha256").update(string).digest("hex");
     const checksum = sha256 + "###" + keyIndex;
 
-    const prod_URL =
-      "https://api.phonepe.com/apis/hermes/pg/v1/pay";
+    const prod_URL = process.env.PHONEPAY_API;
 
     const options = {
       method: "POST",
@@ -177,7 +175,7 @@ app.get("/status", async (req, res) => {
     // Call the PhonePe status API
     const options = {
       method: 'GET',
-      url: `https://api.phonepe.com/apis/hermes/pg/v1/status/${merchantId}/${merchantTransactionId}`,
+      url: process.env.STATUS_API + `/pg/v1/status/${merchantId}/${merchantTransactionId}`,
       headers: {
         accept: 'application/json',
         'Content-Type': 'application/json',
@@ -188,18 +186,24 @@ app.get("/status", async (req, res) => {
 
     const response = await axios(options);
 
-    // Parse the response and return appropriate details
     if (response.data.success) {
+      // Payment is successful, update the order status in the database
+      await Order.findOneAndUpdate(
+        { merchantTransactionId },
+        { status: 'paid' },
+        { new: true }
+      );
+
       res.status(200).json({
         success: true,
         message: 'Payment successful',
-        amount: response.data.data.amount, // Adjust if necessary
+        amount: response.data.data.amount, // Adjust based on actual response structure
       });
     } else {
       res.status(200).json({
         success: false,
         message: 'Payment failed',
-        reason: response.data.data.message,
+        reason: response.data.data.message, // Adjust based on actual response structure
       });
     }
   } catch (error) {

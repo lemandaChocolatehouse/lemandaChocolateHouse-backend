@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const orderSchema = new mongoose.Schema({
     user: {
-        type: mongoose.Schema.Types.ObjectId, // Assuming User has an ObjectId type
+        type: String, // Assuming User has an ObjectId type
        
         ref: 'User', // Reference to User model
       },

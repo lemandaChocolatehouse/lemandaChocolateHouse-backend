@@ -68,8 +68,8 @@ app.use(`${api}/users`, usersRouter);
 app.use(`${api}/orders`, ordersRouter);
 app.use(`${api}/payment`, paymentRouter);
 
-let merchantId = process.env.MERCHANT_ID1;
-let salt_key = process.env.SALT_KEY1;
+let merchantId = process.env.MERCHANT_ID;
+let salt_key = process.env.SALT_KEY;
 
 app.post("/neworder", async (req, res) => {
   const { user, items, shippingInfo, totalPrice, MUID, transactionId } =

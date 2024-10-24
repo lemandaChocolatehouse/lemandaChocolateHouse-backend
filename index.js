@@ -97,7 +97,8 @@ app.post("/neworder", async (req, res) => {
   try {
     // Save order to the database
     const newOrder = new Order(orderData);
-    console.log(newOrder);
+    console.log(newOrder, "------------------------------------------newOrder-------------------------------------------------------");
+    
     await newOrder.save();
 
     // Prepare payload for the payment request
@@ -125,13 +126,16 @@ app.post("/neworder", async (req, res) => {
       },
     };
 
+
     // Send payment request
     await axios(options)
       .then((response) => {
+
         res.json(response.data); // Send payment response to the frontend
       })
       .catch((error) => {
         console.log(error);
+
         res.status(500).send("Payment request failed");
       });
   } catch (error) {

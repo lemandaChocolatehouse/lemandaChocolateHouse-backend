@@ -17,9 +17,9 @@ mongoose
     console.log(err);
   });
 
-conn.on("open", () => {
-  gfs = Grid(conn.db, mongoose.mongo);
-  gfs.collection("uploads");
-});
+// conn.on("open", () => {
+//   gfs = Grid(conn.db, mongoose.mongo);
+//   gfs.collection("uploads");
+// });
 
-module.exports = { conn, gfs, mongoose };
+module.exports = { conn, mongoose };

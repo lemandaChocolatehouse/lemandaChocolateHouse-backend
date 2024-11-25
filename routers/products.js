@@ -1,14 +1,20 @@
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
-const multer = require("multer");
+// const multer = require("multer");
 
-const GridFSStream = require("gridfs-stream");
+// import { upload } from '../middleware/multer.middleware.js'
+const { upload } = require('../middleware/multer.middleware.js');
+
+// import { uploadOnCloudinary } from '../utils/uploadOnCloudinary';
+const { uploadOnCloudinary } = require('../utils/uploadOnCloudinary');
+
+// const GridFSStream = require("gridfs-stream");
 const { Product } = require("../models/product");
-const { gfs} = require("../db");
+// const { gfs} = require("../db");
 
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+// const storage = multer.memoryStorage();
+// const upload = multer({ storage: storage });
 
 router.get(`/`, async (req, res) => {
   try {
@@ -71,19 +77,61 @@ router.post(
       } = req.body;
       // Create new product
 
-      const updateData = {
-        name,
-        product_id,
-        desc,
-        price,
-        category,
-        quantity,
-        countInStock,
-        Image: req.files.Image ? req.files.Image[0].buffer : null,
-        Image1: req.files.Image1 ? req.files.Image1[0].buffer : null,
-        Image2: req.files.Image2 ? req.files.Image2[0].buffer : null,
-        Image3: req.files.Image3 ? req.files.Image3[0].buffer : null,
-      };
+      const updateData = {}
+
+      if (name) updateData.name = name
+      if (product_id) updateData.product_id = product_id
+      if (desc) updateData.desc = desc
+      if (price) updateData.price = price
+      if (category) updateData.category = category
+      if (quantity) updateData.quantity = quantity
+      if (countInStock) updateData.countInStock = countInStock
+
+      if (req.files?.Image) {
+        const productImage = req.files.Image[0];
+        const productImageUpload = await uploadOnCloudinary(productImage.path);
+        if (productImageUpload?.secure_url) {
+          updateData.Image = productImageUpload.secure_url;
+        }
+      }
+
+      if (req.files?.Image1) {
+        const productImage1 = req.files.Image1[0];
+        const productImage1Upload = await uploadOnCloudinary(productImage1.path);
+        if (productImage1Upload?.secure_url) {
+          updateData.Image1 = productImage1Upload.secure_url;
+        }
+      }
+
+      if (req.files?.Image2) {
+        const productImage2 = req.files.Image2[0];
+        const productImage2Upload = await uploadOnCloudinary(productImage2.path);
+        if (productImage2Upload?.secure_url) {
+          updateData.Image2 = productImage2Upload.secure_url;
+        }
+      }
+
+      if (req.files?.Image3) {
+        const productImage3 = req.files.Image3[0];
+        const productImage3Upload = await uploadOnCloudinary(productImage3.path);
+        if (productImage3Upload?.secure_url) {
+          updateData.Image3 = productImage3Upload.secure_url;
+        }
+      }
+
+      // const updateData = {
+      //   name,
+      //   product_id,
+      //   desc,
+      //   price,
+      //   category,
+      //   quantity,
+      //   countInStock,
+      //   Image: req.files.Image ? req.files.Image[0] : null,
+      //   Image1: req.files.Image1 ? req.files.Image1[0] : null,
+      //   Image2: req.files.Image2 ? req.files.Image2[0] : null,
+      //   Image3: req.files.Image3 ? req.files.Image3[0] : null,
+      // };
 
       const isProductExist = await Product.findOne({ product_id });
       if (isProductExist) {
@@ -146,10 +194,38 @@ router.put(
       if (category) updateData.category = category;
       if (quantity) updateData.quantity = quantity;
       if (countInStock) updateData.countInStock = countInStock;
-      if (req?.files?.Image) updateData.Image = req.files.Image[0].buffer;
-      if (req?.files?.Image1) updateData.Image1 = req.files.Image1[0].buffer;
-      if (req?.files?.Image2) updateData.Image2 = req.files.Image2[0].buffer;
-      if (req?.files?.Image3) updateData.Image3 = req.files.Image3[0].buffer;
+
+      if (req.files?.Image) {
+        const productImage = req.files.Image[0];
+        const productImageUpload = await uploadOnCloudinary(productImage.path);
+        if (productImageUpload?.secure_url) {
+          updateData.Image = productImageUpload.secure_url;
+        }
+      }
+
+      if (req.files?.Image1) {
+        const productImage1 = req.files.Image1[0];
+        const productImage1Upload = await uploadOnCloudinary(productImage1.path);
+        if (productImage1Upload?.secure_url) {
+          updateData.Image1 = productImage1Upload.secure_url;
+        }
+      }
+
+      if (req.files?.Image2) {
+        const productImage2 = req.files.Image2[0];
+        const productImage2Upload = await uploadOnCloudinary(productImage2.path);
+        if (productImage2Upload?.secure_url) {
+          updateData.Image2 = productImage2Upload.secure_url;
+        }
+      }
+
+      if (req.files?.Image3) {
+        const productImage3 = req.files.Image3[0];
+        const productImage3Upload = await uploadOnCloudinary(productImage3.path);
+        if (productImage3Upload?.secure_url) {
+          updateData.Image3 = productImage3Upload.secure_url;
+        }
+      }
 
       const response = await Product.findOneAndUpdate(
         { product_id: product_id },

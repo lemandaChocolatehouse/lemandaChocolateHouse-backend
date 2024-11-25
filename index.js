@@ -39,6 +39,7 @@ app.use(
 );
 
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'))
 
 // Enable preflight across all routes
 app.options("*", (req, res) => {

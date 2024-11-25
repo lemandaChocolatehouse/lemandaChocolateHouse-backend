@@ -1,9 +1,11 @@
 const Grid = require("gridfs-stream");
 const mongoose = require("mongoose");
+require("dotenv").config();
 
-let gfs;
+// let gfs;
 
 const conn = mongoose.connection;
+
 
 mongoose
   .connect(process.env.MONGO_URI, {

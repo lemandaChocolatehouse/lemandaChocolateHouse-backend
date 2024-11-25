@@ -7,7 +7,7 @@ const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const axios = require("axios");
 const Order = require("./models/orderModel"); // Import the Order model
-
+require("./db");
 require("dotenv").config();
 const app = express();
 
@@ -39,7 +39,6 @@ app.use(
 );
 
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'))
 
 // Enable preflight across all routes
 app.options("*", (req, res) => {

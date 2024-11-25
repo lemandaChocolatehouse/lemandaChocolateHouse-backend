@@ -142,6 +142,7 @@ router.post(
       }
 
       const newProduct = new Product(updateData);
+      console.log(newProduct);
       const response = await newProduct?.save();
       if (response) {
         res.status(201).json({ success: true });

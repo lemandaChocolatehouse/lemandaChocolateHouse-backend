@@ -1,7 +1,3 @@
-// import dotenv from 'dotenv'
-// import { v2 as cloudinary } from 'cloudinary'
-// import fs from 'fs'
-
 const dotenv = require('dotenv')
 const cloudinary = require('cloudinary').v2;
 const fs = require('fs')
@@ -23,6 +19,7 @@ const uploadOnCloudinary = async (localFilePath) => {
         const response = await cloudinary.uploader.upload(localFilePath, {
             resource_type: 'auto',
         })
+        
         fs.unlinkSync(localFilePath)
         return response
     } catch (error) {

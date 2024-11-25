@@ -37,7 +37,7 @@ app.use(
     credentials: true, // If using credentials (cookies, etc.)
   })
 );
-
+app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 
 // Enable preflight across all routes

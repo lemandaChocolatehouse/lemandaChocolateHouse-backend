@@ -10,19 +10,19 @@ const productSchema = mongoose.Schema({
     required: true,
   },
   Image: {
-    type: Buffer, // Store main image as binary data
+    type: String, // Store main image as binary data
     default: null,
   },
   Image1: {
-    type: Buffer, // Store additional images as binary data
+    type: String, // Store additional images as binary data
     default: null,
   },
   Image2: {
-    type: Buffer, // Store additional images as binary data
+    type: String, // Store additional images as binary data
     default: null,
   },
   Image3: {
-    type: Buffer, // Store additional images as binary data
+    type: String, // Store additional images as binary data
     default: null,
   },
   desc: {
